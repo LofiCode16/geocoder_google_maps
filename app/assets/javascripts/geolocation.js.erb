@@ -1,0 +1,91 @@
+
+document.addEventListener('DOMContentLoaded', function(){
+    var div = document.querySelector('#geo');
+    var button = document.querySelector('#button');
+    var market_list = document.querySelector('#market_list')
+
+    button.addEventListener('click', function(){
+
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            div.innerHTML = '<p>No es posible acceder a la ubicacion</p>';
+        }
+
+    });
+
+    market_list.addEventListener('click', function(event){
+        event.preventDefault();
+
+        var market_id = event.target.getAttribute('id');
+
+        Rails.ajax({
+            type: 'get',
+            url: `/?market_id=${market_id}`,
+            dataType: 'json',
+            success: function(markets){
+
+                handler = Gmaps.build('Google');
+                
+                handler.buildMap({
+                    provider: {},
+                    internal: {id: 'map'}},
+                    function(){
+                        
+                        markers = handler.addMarkers(markets.markers);
+                        
+                        handler.bounds.extendWith(markers);
+                        handler.fitMapToBounds();
+                    }
+                )    
+
+            }
+        })
+    });
+
+    buildGoogleMap()    
+    
+    function buildGoogleMap(){
+
+
+        Rails.ajax({
+            type: 'get',
+            url: '/',
+            dataType: 'json',
+            success: function(markets){
+                handler = Gmaps.build('Google');
+                
+                handler.buildMap({
+                    provider: {},
+                    internal: {id: 'map'}},
+                    function(){
+                        
+                        markers = handler.addMarkers(markets.markers);
+                        
+                        handler.bounds.extendWith(markers);
+                        handler.fitMapToBounds();
+                    }
+                )    
+
+            }
+        })
+        
+    }     
+    
+    
+        
+});
+        
+function showPosition(position){
+
+    Rails.ajax({
+        type: 'get',
+        url: `/geolocation/index?lat=${position.coords.latitude}&long=${position.coords.longitude}`,
+        dataType: 'json',
+        success: function(data){
+            var div = document.querySelector('#geo');
+            div.innerHTML = `<p>${data.address}</p>`
+        }
+    });
+
+}

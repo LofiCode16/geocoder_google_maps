@@ -1,0 +1,7 @@
+{
+  "name": "geocoder",
+  "private": true,
+  "dependencies": {
+    "underscore": "^1.12.1"
+  }
+}
