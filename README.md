@@ -1,24 +1,19 @@
-# README
+# Geocoder Google Maps
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Proyecto para la implementación de mapas de Google en Rails.
 
-Things you may want to cover:
+Este proyecto experimental permite crear una lista de locales con sus direcciones, las cuales se muestran en conjunto dentro del mapa, permitiendo también acceder a cada una de ellas por separado de forma asíncrona.
 
-* Ruby version
+## Dependencias
 
-* System dependencies
+* Geocoder
+* Gmaps4Rails
+* Underscore
 
-* Configuration
+## Puesta en marcha
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+1. Clona este proyecto
+2. Instala las dependencias utilizando `bundle install` y `yarn install`
+3. Ejecuta las migraciones y seed con `rails db:setup`
+4. Crea el archivo .env con tu api key para el servicio de GoogleMaps
+5. Levanta el servidor con `rails s`
